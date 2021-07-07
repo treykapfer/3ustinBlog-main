@@ -1,0 +1,45 @@
+/* GLOBAL VARIABLES */
+
+@import './root.css';
+
+/*IMPORTED FONTS*/
+/*
+font-family: 'Alegreya Sans SC', sans-serif;
+font-family: 'Audiowide', cursive;
+font-family: 'Bebas Neue', cursive;
+font-family: 'Bowlby One SC', cursive;
+font-family: 'Bungee', cursive;
+font-family: 'Dela Gothic One', cursive;
+font-family: 'Open Sans', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Roboto Slab', serif;
+*/
+
+/*POST ROWS*/
+.post_row {
+    text-align: right;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+    .post_row:nth-child(2n) {
+        text-align: left;
+        flex-direction: row-reverse;
+    }
+
+    .post_row:hover {
+        background-color: var(--impactLight);
+    }
+
+    .post_row h3 {
+        font-size: 230%;
+        margin: .5rem auto;
+    }
+
+    @media only screen and (max-width: 720px) {
+        .post_row:nth-child(2n) {
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+    }

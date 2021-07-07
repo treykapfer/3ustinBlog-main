@@ -1,0 +1,35 @@
+/* GLOBAL VARIABLES */
+:root {
+    /*color scheme*/
+    --defaultColor: black;
+    --tertiaryColor: gold;
+    --secondaryColor: rgb(45, 25, 0);
+    --impactLight: rgba(0, 225, 255, 0.10);
+    --dangerDark: rgb(73, 0, 12);
+    --dangerLight: rgb(255, 155, 172);
+    --highlight: rgba(255, 255, 255, 0.25);
+    --textHighlight: white;
+    /* sizes */
+    --tinyEdge: 5px;
+    --roundEdge: 10px;
+    --rounderEdge: 25px;
+    --globalMar: 1rem;
+    --globalPad: 1rem;
+    --boxHeight: 276px;
+    /*fonts*/
+    --defaultFont: 'Roboto', sans-serif;
+    --impactFont: 'Alegreya Sans SC', sans-serif;
+}
+
+/*IMPORTED FONTS*/
+/*
+font-family: 'Alegreya Sans SC', sans-serif;
+font-family: 'Audiowide', cursive;
+font-family: 'Bebas Neue', cursive;
+font-family: 'Bowlby One SC', cursive;
+font-family: 'Bungee', cursive;
+font-family: 'Dela Gothic One', cursive;
+font-family: 'Open Sans', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Roboto Slab', serif;
+*/
