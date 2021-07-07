@@ -20,6 +20,7 @@ font-family: 'Roboto Slab', serif;
     text-align: right;
     justify-content: space-between;
     overflow: hidden;
+    align-items: center;
 }
 
     .post_row:nth-child(2n) {
