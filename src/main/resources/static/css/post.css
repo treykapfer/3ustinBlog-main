@@ -19,7 +19,7 @@ main {
     flex-direction: column;
 }
 
-/*POST CSS*/
+/*POST*/
 .post_wrap {
     border-bottom: 2px dotted var(--dangerDark);
     align-items: center;

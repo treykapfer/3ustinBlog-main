@@ -128,7 +128,7 @@ main {
     background-color: var(--defaultColor);
 }
 
-/*CONTAINER*/
+/*CONTAINERS IN MAIN*/
 .post_container, .comment_container, .post_wrap {
     width: 80%;
     margin: 0px auto;
@@ -140,6 +140,7 @@ input {
     text-align: center;
 }
 
+/*BUTTONS*/
 .btn, .btnblue {
     font-family: var(--impactFont);
     color: var(--textHighlight);
@@ -183,31 +184,30 @@ input {
 
 /*GLOBAL POST INFO*/
 /*CONTENT*/
-.post_content {
-    align-self: center;
-    padding: 2rem;
-    color: var(--tertiaryColor);
-    background-color: var(--impactLight);
-    max-height: var(--boxHeight);
-    overflow: hidden;
-}
-
-.post_img img {
-    width: var(--boxHeight);
-    height: var(--boxHeight);
-    object-fit: scale-down;
-}
-
 .post_container {
     margin-top: -1rem;
 }
 
-/*IMAGE*/
-.post_img {
-    background-color: rgba(0, 0, 0, 0.50);
-    width: var(--boxHeight);
-    height: var(--boxHeight);
-}
+    .post_content {
+        align-self: center;
+        padding: 2rem;
+        color: var(--tertiaryColor);
+        background-color: var(--impactLight);
+        max-height: var(--boxHeight);
+        overflow: hidden;
+    }
+
+    .post_img {
+        background-color: rgba(0, 0, 0, 0.50);
+        width: var(--boxHeight);
+        height: var(--boxHeight);
+    }
+
+        .post_img img {
+            width: var(--boxHeight);
+            height: var(--boxHeight);
+            object-fit: scale-down;
+        }
 
 /*FOOTER*/
 footer {
@@ -219,10 +219,12 @@ footer {
     box-shadow:         inset 0 5px 8px #000000;
 }
 
+/*ORDERED TO EXECUTE LAST*/
 small {
     color: var(--dangerLight);
 }
 
+/*LIKES*/
 .likes {
     align-items: center;
 }

@@ -20,21 +20,23 @@ main {
     background-size: cover;
 }
 
+/* LEFT CONTAINER */
 .left_container {
     flex: 2;
     margin-left: 3rem;
     margin-right: var(--globalMar);
 }
 
-.left_container p {
-    text-indent: 4rem;
-    text-align: center;
-}
+    .left_container p {
+        text-indent: 4rem;
+        text-align: center;
+    }
 
         #blog_logo_big {
             width: 75%
         }
 
+/* RIGHT CONTAINER */
 .right_container {
     flex: 1;
     margin-left: var(--globalMar);
