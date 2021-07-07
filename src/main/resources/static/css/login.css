@@ -51,7 +51,7 @@ main {
         height: 224px;
         flex-shrink: 0;
 
-        position:relative;
+        position: relative;
         overflow: hidden;
         background-color: var(--highlight);
 
@@ -62,14 +62,18 @@ main {
         box-shadow:         .5rem .5rem rgb(0, 0, 0, 0.25);  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
     }
 
-    .blog_card h4 {
+    .blog_card h4, .blog_card p {
         position: relative;
         z-index: 1;
+    }
+
+    .blog_card h4 {
         color: var(--tertiaryColor);
         font-family: var(--impactFont);
         font-size: 150%;
         text-align: center;
     }
+
 
     .blog_card img {
         position: absolute;
