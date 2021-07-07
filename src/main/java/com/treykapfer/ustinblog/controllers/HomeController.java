@@ -39,14 +39,72 @@ public class HomeController {
 		this.commentService = commentService;
 	}
 	
-	//pass in model attribute user
+	//ALL LANDING PAGES
 	@GetMapping("/")
 	public String login(@ModelAttribute("user") User user, Model model) {
 		List<Post> posts = postService.allPosts();
 		model.addAttribute("posts",posts);
 		return "login.jsp";
 	}
-	
+	//DEV PAGE
+	@RequestMapping("/about")
+    public String about(HttpSession session, Model model) {
+		User user = (User) session.getAttribute("sesUser");
+		model.addAttribute("sesUser",user);
+		//
+    	return "about.jsp";
+	}
+
+	//HOME/DASHBOARD
+	@RequestMapping("/home")
+    public String home(Model model, HttpSession session) {
+		User user = (User) session.getAttribute("sesUser");
+		model.addAttribute("sesUser",user);
+		//
+		List<Post> posts = postService.allPostsDesc();
+		model.addAttribute("posts",posts);
+		return "home.jsp";
+	}
+
+	//POST PAGE
+	@GetMapping("/post/{id}")
+	public String post(@PathVariable("id") Long id, @ModelAttribute("comment") Comment comment, Model model, HttpSession session){
+		User u = (User) session.getAttribute("sesUser");
+		model.addAttribute("sesUser",u);
+		//
+		Post post = postService.findOneByID(id);
+		List<Comment> comments = commentService.allComments();
+		User user = (User) session.getAttribute("sesUser");
+		User userInDB = this.userServ.findUserById(user.getId());
+		model.addAttribute("userInDB", userInDB);
+		model.addAttribute("post",post);
+		model.addAttribute("comments", comments);
+		return "post.jsp";
+	}
+
+	//CREATE NEW
+	@GetMapping("/post/new")
+	public String addPost(Model model, HttpSession session) {
+		Long id = (Long) session.getAttribute("userID");
+		User u = userServ.findUserById(id);
+		model.addAttribute("sesUser",u);
+		
+		model.addAttribute("newPost", new Post());
+		model.addAttribute("allPosts", postService.allPosts());
+		return "newpost.jsp";
+	}
+
+	//PROFILE PAGE
+	@GetMapping("/user/{id}")
+	public String profile(@PathVariable("id") Long id, Model model, HttpSession session){
+		User user = (User) session.getAttribute("sesUser");
+		model.addAttribute("sesUser",user);
+		User u = userServ.findUserById(id);
+		model.addAttribute("profUser",u);
+		return "profile.jsp";
+	}
+
+	//ALL POST REQUESTS
 	//LOGIN REG POST MAPPING
 	@PostMapping("/registration")
 	public String register(@Valid @ModelAttribute("user") User newUser, BindingResult result, HttpSession session) {
@@ -85,54 +143,19 @@ public class HomeController {
     	session.invalidate();
     	return "redirect:/";
 	}
-	
-	@RequestMapping("/about")
-    public String about(HttpSession session, Model model) {
-		User user = (User) session.getAttribute("sesUser");
-		model.addAttribute("sesUser",user);
-		//
-    	return "about.jsp";
+
+	//CREATE NEW POST
+	@PostMapping("/post/add")
+	public String createPost(@Valid @ModelAttribute("newPost") Post newPost, BindingResult result, Model model, HttpSession session) {
+		if (result.hasErrors()) {
+			System.out.println(result);
+			return "newpost.jsp";
+		}
+		postService.createPost(newPost);
+		return "redirect:/home";
 	}
 
-	@RequestMapping("/home")
-    public String home(Model model, HttpSession session) {
-		User user = (User) session.getAttribute("sesUser");
-		model.addAttribute("sesUser",user);
-		//
-		List<Post> posts = postService.allPostsDesc();
-		model.addAttribute("posts",posts);
-		return "home.jsp";
-	}
-
-	@GetMapping("/post/{id}")
-	public String post(@PathVariable("id") Long id, @ModelAttribute("comment") Comment comment, Model model, HttpSession session){
-		User u = (User) session.getAttribute("sesUser");
-		model.addAttribute("sesUser",u);
-		//
-		Post post = postService.findOneByID(id);
-		List<Comment> comments = commentService.allComments();
-		User user = (User) session.getAttribute("sesUser");
-		User userInDB = this.userServ.findUserById(user.getId());
-		model.addAttribute("userInDB", userInDB);
-		model.addAttribute("post",post);
-		model.addAttribute("comments", comments);
-		return "post.jsp";
-	}
-
-	@PostMapping("post/{pID}/like")
-	public String likePost(@PathVariable("pID") Long pID, HttpSession session) {
-		User user = (User) session.getAttribute("sesUser");
-		this.postService.addLike(pID, user.getId());
-		return "redirect:/post/" + pID;
-	}
-
-	@PostMapping("post/{pID}/unLike")
-	public String unLikePost(@PathVariable("pID") Long pID, HttpSession session) {
-		User user = (User) session.getAttribute("sesUser");
-		this.postService.unLike(pID, user.getId());
-		return "redirect:/post/" + pID;
-	}
-
+	//CREATE NEW COMMENT
 	@RequestMapping(value="/post/{id}/newComment", method=RequestMethod.POST)
 	public String postNewComment(@Valid @ModelAttribute("comment") Comment comment, BindingResult result, @PathVariable("id") Long id, Model model, HttpSession session){
 		//Grabbing Post, User, and Comment Content for a new Comment.
@@ -149,6 +172,22 @@ public class HomeController {
 		
 	}
 
+	//LIKE POSTS
+	@PostMapping("post/{pID}/like")
+	public String likePost(@PathVariable("pID") Long pID, HttpSession session) {
+		User user = (User) session.getAttribute("sesUser");
+		this.postService.addLike(pID, user.getId());
+		return "redirect:/post/" + pID;
+	}
+
+	@PostMapping("post/{pID}/unLike")
+	public String unLikePost(@PathVariable("pID") Long pID, HttpSession session) {
+		User user = (User) session.getAttribute("sesUser");
+		this.postService.unLike(pID, user.getId());
+		return "redirect:/post/" + pID;
+	}
+
+	//LIKE/UNLIKE COMMENTS
 	@PostMapping("comment/{cID}/{pID}/like")
 	public String likeComment(@PathVariable("cID") Long cID, @PathVariable("pID") Long pID, HttpSession session) {
 		User user = (User) session.getAttribute("sesUser");
@@ -162,38 +201,5 @@ public class HomeController {
 		this.commentService.unLike(cID, user.getId());
 		return "redirect:/post/" + pID;
 	}
-
-	//CREATE NEW
-	@GetMapping("/post/new")
-	public String addPost(Model model, HttpSession session) {
-		Long id = (Long) session.getAttribute("userID");
-		User u = userServ.findUserById(id);
-		model.addAttribute("sesUser",u);
-		
-		model.addAttribute("newPost", new Post());
-		model.addAttribute("allPosts", postService.allPosts());
-		return "newpost.jsp";
-	}
-
-	@PostMapping("/post/add")
-	public String createPost(@Valid @ModelAttribute("newPost") Post newPost, BindingResult result, Model model, HttpSession session) {
-		if (result.hasErrors()) {
-			System.out.println(result);
-			return "newpost.jsp";
-		}
-		postService.createPost(newPost);
-		return "redirect:/home";
-	}
-
-	//PROFILE PAGE
-	@GetMapping("/user/{id}")
-	public String profile(@PathVariable("id") Long id, Model model, HttpSession session){
-		User user = (User) session.getAttribute("sesUser");
-		model.addAttribute("sesUser",user);
-		User u = userServ.findUserById(id);
-		model.addAttribute("profUser",u);
-		return "profile.jsp";
-	}
-
 
 }
