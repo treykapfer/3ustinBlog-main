@@ -19,8 +19,8 @@ font-family: 'Roboto Slab', serif;
 .post_row {
     text-align: right;
     justify-content: space-between;
-    overflow: hidden;
     align-items: center;
+    overflow: hidden;
 }
 
     .post_row:nth-child(2n) {
